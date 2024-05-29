@@ -1,4 +1,4 @@
-[문제](https://school.programmers.co.kr/learn/challenges?order=recent&levels=2&page=2)
+[문제](https://school.programmers.co.kr/learn/courses/30/lessons/169199)
 
 1. 미로찾기와 비슷한 문제이지만 한번 이동 시 끝까지 이동할 수 있고 최단 경로를 찾아야 하기 때문에 BFS를 사용해야 한다.
 2. 장애물과 끝부분 일때 멈추는 것과 이미 지나간 곳을 다시 탐색해야 하는 것 등의 예외를 잘 확인해야 한다.
