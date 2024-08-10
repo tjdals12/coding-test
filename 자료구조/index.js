@@ -1,29 +1,25 @@
-class MaxHeap {
+class MinHeap {
   heap = [];
-
-  getParentIndex(currentIndex) {
-    return Math.floor((currentIndex - 1) / 2);
-  }
-
-  getLeftChildIndex(currentIndex) {
-    return 2 * currentIndex + 1;
-  }
-
-  getRightChildIndex(currentIndex) {
-    return 2 * currentIndex + 2;
-  }
-
   size() {
     return this.heap.length;
   }
-
+  getParentIndex(currentIndex) {
+    if (currentIndex === 0) return -1;
+    return Math.floor((currentIndex - 1) / 2);
+  }
+  getLeftChildIndex(currentIndex) {
+    return currentIndex * 2 + 1;
+  }
+  getRightChildIndex(currentIndex) {
+    return currentIndex * 2 + 2;
+  }
   push(value) {
     this.heap.push(value);
     let currentIndex = this.heap.length - 1;
     let parentIndex = this.getParentIndex(currentIndex);
     while (true) {
       if (parentIndex === -1) break;
-      if (this.heap[parentIndex] >= this.heap[currentIndex]) break;
+      if (this.heap[currentIndex] >= this.heap[parentIndex]) break;
       [this.heap[currentIndex], this.heap[parentIndex]] = [
         this.heap[parentIndex],
         this.heap[currentIndex],
@@ -32,7 +28,6 @@ class MaxHeap {
       parentIndex = this.getParentIndex(currentIndex);
     }
   }
-
   pop() {
     if (this.heap.length === 0) {
       return null;
@@ -46,25 +41,25 @@ class MaxHeap {
     let leftChildIndex = this.getLeftChildIndex(currentIndex);
     let rightChildIndex = this.getRightChildIndex(currentIndex);
     while (true) {
-      let biggestIndex = currentIndex;
+      let smallestChildIndex = currentIndex;
       if (
-        this.size() > leftChildIndex &&
-        this.heap[leftChildIndex] > this.heap[biggestIndex]
+        this.heap.length > leftChildIndex &&
+        this.heap[smallestChildIndex] > this.heap[leftChildIndex]
       ) {
-        biggestIndex = leftChildIndex;
+        smallestChildIndex = leftChildIndex;
       }
       if (
-        this.size() > rightChildIndex &&
-        this.heap[rightChildIndex] > this.heap[biggestIndex]
+        this.heap.length > rightChildIndex &&
+        this.heap[smallestChildIndex] > this.heap[rightChildIndex]
       ) {
-        biggestIndex = rightChildIndex;
+        smallestChildIndex = rightChildIndex;
       }
-      if (biggestIndex === currentIndex) break;
-      [this.heap[currentIndex], this.heap[biggestIndex]] = [
-        this.heap[biggestIndex],
+      if (currentIndex === smallestChildIndex) break;
+      [this.heap[currentIndex], this.heap[smallestChildIndex]] = [
+        this.heap[smallestChildIndex],
         this.heap[currentIndex],
       ];
-      currentIndex = biggestIndex;
+      currentIndex = smallestChildIndex;
       leftChildIndex = this.getLeftChildIndex(currentIndex);
       rightChildIndex = this.getRightChildIndex(currentIndex);
     }
@@ -72,24 +67,10 @@ class MaxHeap {
   }
 }
 
-function solution(n, k, enemy) {
-  if (k >= enemy.length) return enemy.length;
-  const maxHeap = new MaxHeap();
-  let answer = 0;
-  for (let i = 0; i < enemy.length; i++) {
-    const current = enemy[i];
-    maxHeap.push(current);
-    if (current > n) {
-      if (k === 0) break;
-      const prev = maxHeap.pop();
-      n += prev;
-      k--;
-    }
-    n -= current;
-    answer++;
-  }
-  return answer;
+const heap = new MinHeap();
+for (let i = 10; i >= 0; i--) {
+  heap.push(Math.floor(Math.random() * 100));
 }
-
-console.log(solution(7, 3, [4, 2, 4, 5, 3, 3, 1])); // 5
-console.log(solution(2, 4, [3, 3, 3, 3])); // 4
+while (heap.size() > 0) {
+  console.log(heap.pop());
+}
